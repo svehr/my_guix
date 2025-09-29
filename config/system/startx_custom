@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set_profile_if_exists() {
+    test -e "$1" && GUIX_PROFILE="$1"
+}
+
+set_profile_if_exists "/run/current-system/profile"
+# set_profile_if_exists "${HOME}/.guix-profile"
+# set_profile_if_exists "${HOME}/.config/guix/current"
+
+startx() {
+    tty="$(tty)"
+    tty_idx="${tty#/dev/tty}"
+    xinit -- \
+        "$(command -v Xorg)" :0 "vt${tty_idx}" \
+    -keeptty \
+    -configdir "${GUIX_PROFILE}/share/X11/xorg.conf.d" \
+    -modulepath "${GUIX_PROFILE}/lib/xorg/modules"
+}
+
+if [[ -t 0 && ! $DISPLAY ]]; then
+    startx
+fi

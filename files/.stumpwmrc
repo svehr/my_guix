@@ -1,0 +1,207 @@
+(in-package :stumpwm)
+(require :battery-portable)
+(require :stumptray)
+
+(grename "1")
+(gnewbg "2")
+(gnewbg "3")
+(gnewbg "4")
+(gnewbg "5")
+(gnewbg "6")
+(gnewbg "7")
+(gnewbg "8")
+(gnewbg "9")
+
+;; TODO: variable for color (same as modeline)
+(run-shell-command "xsetroot -solid '#111118'")
+
+;; TODO: need to switch head not screen
+(defcommand sgoto0 () ()
+"Go to screen 0."
+  (switch-to-screen (car *screen-list*))
+  (group-wake-up (current-group)))
+(defcommand sgoto1 () ()
+"Go to screen 1."
+  (switch-to-screen (cadr *screen-list*))
+  (group-wake-up (current-group)))
+
+(defcommand split-to-right () ()
+  (hsplit)
+  (move-focus :right))
+
+(defcommand split-to-bottom () ()
+  (vsplit)
+  (move-focus :down))
+
+(defcommand pull-to-right () ()
+  (hsplit)
+  (move-window :right)
+  ;; TODO: move-focus does not seem to work in case we move a window (works on empty frames)
+  (move-focus :left))
+
+(defcommand pull-to-bottom () ()
+  (vsplit)
+  (move-window :down)
+  ;; TODO: move-focus does not seem to work in case we move a window (works on empty frames)
+  (move-focus :up))
+
+(which-key-mode)
+
+(setf *mouse-focus-policy* :sloppy)
+
+(defvar *app-map* (make-sparse-keymap))
+(define-key *top-map* (kbd "s-P") *app-map*)
+(define-key *app-map* (kbd "b") "exec bluetoothctl-connect.sh")
+(define-key *app-map* (kbd "B") "exec bluetoothctl-disconnect.sh")
+(define-key *app-map* (kbd "g") "exec google-chrome")
+
+;; TODO: use fill-keymap for *top-map*
+
+;; TODO: remove
+(set-prefix-key (kbd "s-c"))
+(define-key *top-map* (kbd "s-x") "loadrc")
+
+(define-key *top-map* (kbd "s-f") "fullscreen")
+(define-key *top-map* (kbd "s-.") "stumptray-toggle-hidden-icons-visibility")
+
+(define-key *top-map* (kbd "s-u") "unfloat-this")
+(define-key *top-map* (kbd "s-U") "float-this")
+
+(define-key *top-map* (kbd "s-q") "delete-window")
+(define-key *top-map* (kbd "C-s-Q") "kill-window")
+
+;; groups
+(define-key *top-map* (kbd "s-1") "gselect 1")
+(define-key *top-map* (kbd "s-2") "gselect 2")
+(define-key *top-map* (kbd "s-3") "gselect 3")
+(define-key *top-map* (kbd "s-4") "gselect 4")
+(define-key *top-map* (kbd "s-5") "gselect 5")
+(define-key *top-map* (kbd "s-6") "gselect 6")
+(define-key *top-map* (kbd "s-7") "gselect 7")
+(define-key *top-map* (kbd "s-8") "gselect 8")
+(define-key *top-map* (kbd "s-9") "gselect 9")
+(define-key *top-map* (kbd "s-!") "gmove 1")
+(define-key *top-map* (kbd "s-@") "gmove 2")
+(define-key *top-map* (kbd "s-#") "gmove 3")
+(define-key *top-map* (kbd "s-$") "gmove 4")
+(define-key *top-map* (kbd "s-%") "gmove 5")
+(define-key *top-map* (kbd "s-^") "gmove 6")
+(define-key *top-map* (kbd "s-&") "gmove 7")
+(define-key *top-map* (kbd "s-*") "gmove 8")
+(define-key *top-map* (kbd "s-(") "gmove 9")
+
+;; navigation
+(define-key *top-map* (kbd "s-j") "next-in-frame")
+(define-key *top-map* (kbd "s-k") "prev-in-frame")
+(define-key *top-map* (kbd "s-l") "fnext")
+(define-key *top-map* (kbd "s-h") "fprev")
+(define-key *top-map* (kbd "s-b") "exec sh -c \"stumpish windows | dmenu\"")
+(define-key *top-map* (kbd "s-s") "sgoto1")  ;; middle
+(define-key *top-map* (kbd "s-d") "sgoto0")  ;; right
+
+;; splitting
+(define-key *top-map* (kbd "s-R") "remove")
+(define-key *top-map* (kbd "s-L") "split-to-right")
+(define-key *top-map* (kbd "s-H") "pull-to-right")
+(define-key *top-map* (kbd "s-J") "split-to-bottom")
+(define-key *top-map* (kbd "s-K") "pull-to-bottom")
+
+(define-key *top-map* (kbd "s-Down") "move-window down")
+(define-key *top-map* (kbd "s-Up") "move-window up")
+(define-key *top-map* (kbd "s-Right") "move-window right")
+(define-key *top-map* (kbd "s-Left") "move-window left")
+
+;; programs
+(define-key *top-map* (kbd "s-t") "exec st -e tmux-shell.sh")
+(define-key *top-map* (kbd "s-T") "exec st")
+(define-key *top-map* (kbd "s-p") "exec dmenu_run")
+(define-key *top-map* (kbd "s-w") "exec firefox")
+(define-key *top-map* (kbd "s-W") "exec librewolf")
+(define-key *top-map* (kbd "s-e") "exec emacsclient -nc")
+(define-key *top-map* (kbd "s-E") "exec emacs --daemon")
+(define-key *top-map* (kbd "s-F1") "exec slock.sh")
+
+;; Fn keys
+(define-key *top-map* (kbd "XF86MonBrightnessUp") "exec brightnessctl set +1000")
+(define-key *top-map* (kbd "XF86MonBrightnessDown") "exec brightnessctl set 1000-")
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec wpctl set-volume @DEFAULT_SINK@ 0.03+")
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "exec wpctl set-volume @DEFAULT_SINK@ 0.03-")
+(define-key *top-map* (kbd "XF86AudioMute") "exec wpctl set-mute @DEFAULT_SINK@ toggle")
+
+(setf *new-frame-action* :empty)
+
+(setf *normal-border-width* 1)
+(setf *maxsize-border-width* 1)
+(setf *transient-border-width* 1)
+(setf *window-border-style* :thin)
+
+;; message window
+(set-bg-color "#06061d") ;; midnightblue | darken 0.15
+(set-fg-color "#dcdcdc") ;; gainsboro
+
+;; border colors
+(set-win-bg-color "#000000") ;; black
+(set-border-color "#000000") ;; black
+(set-unfocus-color "#444444") ;; grey
+(set-focus-color "#5485ab") ;; light-blue
+;; TODO: grey/orange light/orange
+(set-float-focus-color "#cd853f") ;; orange
+(set-float-unfocus-color "#664200") ;; brown
+
+;; color scheme
+(setf *colors*
+ '("#1a1a1a"    ;; 0: black | lighten 0.1
+   "#dc143c"    ;; 1: crimson
+   "#6fa96f"    ;; 2: darkseagreen | darken 0.1
+   "#f0db5f"    ;; 3: mix burlywood yellow
+   "#a0b3c4"    ;; 4: lightsteelblue
+   "#da70d6"    ;; 5: orchid
+   "#008b8b"    ;; 6: darkcyan
+   "#dcdcdc"    ;; 7: gainsboro
+   "#111118"    ;; 8: ??
+   "#dcdcdc"))  ;; 9: ??
+(update-color-map (current-screen))
+
+;; mode-line
+(setf *mode-line-background-color* "#111118") ;; dark blue
+(setf *mode-line-foreground-color* "#666666")
+(setf *mode-line-border-width* 0)
+;; %g = list of groups
+;; %v = list of windows of current group
+;; ^> = align to the right
+;; %B = battery indicator (from :battery-portable)
+;; %d = datetime
+;; %T = tray placeholder (from :stumptray)
+(setf *screen-mode-line-format* "%g :: %v^>%B | %d%T")
+;; (setf *screen-mode-line-format* "%g :: %v^>%B | %d")
+;; %m = marker
+;; %s = symbol
+;; %n = number
+;; %t = title
+(setf *window-format* "%m%s%n|%40t")
+(setf *group-format* "[%s%n|%t]")
+;; TODO: %W not supported atm?
+;; (setf *time-modeline-string* "(%ww%W) %Y-%m-%d %H:%M:%S")
+(setf *time-modeline-string* "(%a) %Y-%m-%d %H:%M:%S")
+;; ~A  = thing to highlight
+;; ^5* = color 5 for fg; normal color for bg
+;; ^n  = normal color for fg and bg
+(setf *mode-line-highlight-template* "^5*~A^n")
+(setf *hidden-window-color* "^n")  ;; normal bg and fg colors
+(setf *mode-line-timeout* 1)
+
+(setf stumptray:*tray-placeholder-pixels-per-space* 14)
+;; (setf stumptray:*tray-win-background* *mode-line-background-color*)
+;; (setf stumptray:*tray-viwin-background* *mode-line-background-color*)
+;; (setf stumptray:*tray-hiwin-background* *mode-line-background-color*)
+(dolist (h (screen-heads (current-screen)))
+  (enable-mode-line (current-screen) h t))
+(stumptray::stumptray)
+
+(require :ttf-fonts)
+(setf xft:*font-dirs* (list "/run/current-system/profile/share/fonts/"
+                            (concat (getenv "HOME") "/.guix-home/profile/share/fonts")))
+(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
+(xft:cache-fonts)
+;; (set-font (make-instance 'xft:font :family "DejaVu Sans Mono" :subfamily "Book" :size 18 :antialias t))
+(set-font (make-instance 'xft:font :family "JuliaMono" :subfamily "Regular" :size 18 :antialias t))
