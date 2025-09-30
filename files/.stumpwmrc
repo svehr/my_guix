@@ -15,15 +15,18 @@
 ;; TODO: variable for color (same as modeline)
 (run-shell-command "xsetroot -solid '#111118'")
 
-;; TODO: need to switch head not screen
-(defcommand sgoto0 () ()
-"Go to screen 0."
-  (switch-to-screen (car *screen-list*))
-  (group-wake-up (current-group)))
-(defcommand sgoto1 () ()
-"Go to screen 1."
-  (switch-to-screen (cadr *screen-list*))
-  (group-wake-up (current-group)))
+;; TODO: `focus-head` should focus the last active frame on the head (not just the first)
+(defun focus-head (group head)
+  "Focus the active frame of the given head"
+  (focus-frame group (car (head-frames group head))))
+
+(defcommand focus-head-0 () ()
+ "Focus head 0"
+   (focus-head (current-group) (head-by-number (current-screen) 0)))
+
+(defcommand focus-head-1 () ()
+ "Focus head 1"
+   (focus-head (current-group) (head-by-number (current-screen) 1)))
 
 (defcommand split-to-right () ()
   (hsplit)
@@ -96,8 +99,8 @@
 (define-key *top-map* (kbd "s-l") "fnext")
 (define-key *top-map* (kbd "s-h") "fprev")
 (define-key *top-map* (kbd "s-b") "exec sh -c \"stumpish windows | dmenu\"")
-(define-key *top-map* (kbd "s-s") "sgoto1")  ;; middle
-(define-key *top-map* (kbd "s-d") "sgoto0")  ;; right
+(define-key *top-map* (kbd "s-s") "focus-head-1")  ;; left
+(define-key *top-map* (kbd "s-d") "focus-head-0")  ;; main
 
 ;; splitting
 (define-key *top-map* (kbd "s-R") "remove")
