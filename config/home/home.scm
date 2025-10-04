@@ -44,6 +44,7 @@
     "font-google-noto-serif-cjk"
     "imagemagick"
     "lm-sensors"
+    "node"
     "python-rich"
     "rust"
     "rust:tools"
@@ -63,7 +64,8 @@
     "tmux"
     "units"
     "xkbset"
-    "xset")))
+    "xset"
+    "yarn")))
 
  ;; search for home services `guix home search KEYWORD`
  (services
@@ -130,6 +132,37 @@
                (".local/bin/slock.sh"
                 ,(local-file (path-to-files "slock.sh")
                              "slock.sh" #:recursive? #t))
+               ;; TODO: npm; rather make a package or proper symlink?
+               ;; (".local/bin/tsserver"
+               ;;  ,(local-file (path-to-files "tsserver")
+               ;;               "tsserver" #:recursive? #t))
+               (".local/bin/tsc"
+                ,(program-file
+                  "tsc"
+                  (let ((path-to-exe (path-to-zk-store "2023-04-06_10.45.33.435_UTC--mirs@wrucon.org/node_modules/.bin/tsc")))
+                    (with-imported-modules
+                        '((guix build utils))
+                      #~(begin
+                          (use-modules (guix build utils))
+                          (apply invoke #$path-to-exe (cdr (command-line))))))))
+               (".local/bin/tsserver"
+                ,(program-file
+                  "tsserver"
+                  (let ((path-to-exe (path-to-zk-store "2023-04-06_10.45.33.435_UTC--mirs@wrucon.org/node_modules/.bin/tsserver")))
+                    (with-imported-modules
+                        '((guix build utils))
+                      #~(begin
+                          (use-modules (guix build utils))
+                          (apply invoke #$path-to-exe (cdr (command-line))))))))
+               (".local/bin/typescript-language-server"
+                ,(program-file
+                  "typescript-language-server"
+                  (let ((path-to-exe (path-to-zk-store "2023-04-06_10.45.33.435_UTC--mirs@wrucon.org/node_modules/.bin/typescript-language-server")))
+                    (with-imported-modules
+                        '((guix build utils))
+                      #~(begin
+                          (use-modules (guix build utils))
+                          (apply invoke #$path-to-exe (cdr (command-line))))))))
                ;; zk files
                (".local/bin/wget1.sh"
                 ,(local-file (path-to-zk-store "2021-01-07_13.46.33.585_UTC--mirs@wrucon.org/wget1.sh")
