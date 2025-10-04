@@ -60,6 +60,7 @@
     "sbcl-stumpwm-wifi"
     "scsh"
     "steam"
+    "strace"
     "texlive"
     "tmux"
     "units"
