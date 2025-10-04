@@ -30,6 +30,7 @@
     ;; "st-configured"  ;; TODO: done in system currently
     "ausweisapp"
     "dunst"  ;; notifications
+    "file"
     "flameshot"
     "font-awesome"
     "font-dejavu"
@@ -45,6 +46,7 @@
     "imagemagick"
     "lm-sensors"
     "node"
+    "pandoc"
     "python-rich"
     "rust"
     "rust:tools"
@@ -60,6 +62,7 @@
     "sbcl-stumpwm-wifi"
     "scsh"
     "steam"
+    "strace"
     "texlive"
     "tmux"
     "units"
