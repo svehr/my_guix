@@ -2,7 +2,7 @@
 
 test -f ~/.Xresources && xrdb -merge ~/.Xresources
 
-brightnessctl set 1000
+brightnessctl set 25000
 
 # disable bell
 set bell-style none
