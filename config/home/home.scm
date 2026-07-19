@@ -29,6 +29,8 @@
    (list
     ;; "st-configured"  ;; TODO: done in system currently
     "ausweisapp"
+    "clojure"  ;; overtone
+    "clojure-lsp"
     "dunst"  ;; notifications
     "file"
     "flameshot"
@@ -44,6 +46,8 @@
     "font-google-noto-sans-cjk"
     "font-google-noto-serif-cjk"
     "imagemagick"
+    "jack2"  ;; overtone
+    "leiningen"  ;; clojure ; overtone
     "lm-sensors"
     "node"
     "pandoc"
@@ -63,6 +67,7 @@
     "scsh"
     "steam"
     "strace"
+    "supercollider"
     "texlive"
     "tmux"
     "units"
