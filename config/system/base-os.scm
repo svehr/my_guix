@@ -43,6 +43,7 @@
  #:use-module (gnu packages video)
  #:use-module (gnu packages vim)
  #:use-module (gnu packages virtualization)
+ #:use-module (gnu packages window-management)
  #:use-module (gnu packages wget)
  #:use-module (gnu packages wm)
  #:use-module (gnu packages xdisorg)
@@ -332,15 +333,15 @@
       radeon-firmware
       rsync
       sbcl
-      sbcl-stumpwm-battery-portable
-      sbcl-stumpwm-cpu
-      sbcl-stumpwm-mem
-      sbcl-stumpwm-ttf-fonts
-      sbcl-stumpwm-wifi
+      (@ (gnu packages window-management) sbcl-stumpwm-battery-portable)
+      (@ (gnu packages window-management) sbcl-stumpwm-cpu)
+      (@ (gnu packages window-management) sbcl-stumpwm-mem)
+      (@ (gnu packages window-management) sbcl-stumpwm-ttf-fonts)
+      (@ (gnu packages window-management) sbcl-stumpwm-wifi)
       slock
       st-configured
-      stumpish
-      stumpwm+slynk
+      (@ (gnu packages window-management) stumpish)
+      (@ (gnu packages window-management) stumpwm+slynk)
       sxiv
       tlp
       tmux
