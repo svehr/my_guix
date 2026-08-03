@@ -14,4 +14,6 @@ xset s off -dpms
 keyboard_setup.sh
 monitor_setup.sh
 
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
 exec stumpwm
