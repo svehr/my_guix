@@ -314,6 +314,7 @@
       git
       gnupg
       google-chrome-stable
+      helix
       librewolf
       libxcursor
       htop

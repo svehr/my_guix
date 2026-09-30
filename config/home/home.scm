@@ -48,6 +48,7 @@
     "imagemagick"
     "jack2"  ;; overtone
     "leiningen"  ;; clojure ; overtone
+    "lldb"  ;; lldb-dap
     "lm-sensors"
     "node"
     "pandoc"
