@@ -14,6 +14,7 @@ eval "$(guix package --search-paths \
 export PATH=${HOME}/.local/bin:$PATH
 export PATH=/bin:$PATH
 mkdir -p "${HOME}/.vnode" && export PATH=${HOME}/.vnode/bin:$PATH
+export PATH=${HOME}/.cargo/bin:$PATH
 
 # Prepend setuid programs.
 export PATH=/run/setuid-programs:$PATH
