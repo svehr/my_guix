@@ -23,3 +23,5 @@ fi
 # alias ll='ls -l'
 # alias grep='grep --color=auto'
 # alias ip='ip -color=auto'
+
+export HELIX_RUNTIME="${HOME}/zk/store/2026-09-30_19.56.55.053_UTC--slim@sliook.org/helix/runtime"
